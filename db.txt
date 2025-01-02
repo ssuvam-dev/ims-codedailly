@@ -1,0 +1,196 @@
++--------------------+
+|      Tenant        |
++--------------------+
+| - id: UUID         |
+| - name: string     |
+| - email: string    |
+| - contact: string  |
+| - data: JSON       |
+| - created_at: Date |
+| - updated_at: Date |
++--------------------+
+
++--------------------+
+|       User         |
++--------------------+
+| - id: UUID         |
+| - name: string     |
+| - email: string    |
+| - password: string |
+| - contact: string  |
+| - data: JSON       |
+| - created_at: Date |
+| - updated_at: Date |
++--------------------+
+
++--------------------+
+|    TenantUser      |
++--------------------+
+| - id: UUID         |
+| - tenant_id: UUID  |  -- Foreign key to Tenant
+| - user_id: UUID    |  -- Foreign key to User
+| - role: string     |  -- Role of the user in this tenant (e.g., 'admin', 'manager', 'staff')
+| - status: string   |  -- Active, inactive, pending
+| - data: JSON       |  -- Additional metadata
+| - created_at: Date |
+| - updated_at: Date |
++--------------------+
+
+
++--------------------+
+|      Category      |
++--------------------+
+| - id: UUID         |
+| - tenant_id: UUID  |
+| - name: string     |
+| - slug: string     |
+| - description:     |
+|   string           |
+| - data: JSON       |
+| - created_at: Date |
+| - updated_at: Date |
++--------------------+
+
++--------------------+
+|      Product       |
++--------------------+
+| - id: UUID         |
+| - tenant_id: UUID  |
+| - code: string     |
+| - name: string     |
+| - slug: string     |
+| - description:     |
+|   string           |
+| - price: float     |
+| - quantity: int    |
+| - safety_stock: int|   -- Minimum stock level to trigger alerts/orders
+| - expiry_date: Date|   -- Expiration date for the product (if applicable)
+| - data: JSON       |
+| - created_at: Date |
+| - updated_at: Date |
++--------------------+
+
+
++--------------------+
+|    InventoryLog    | (Polymorphic Table)
++--------------------+
+| - id: UUID         |
+| - tenant_id: UUID  |
+| - product_id: UUID |
+| - quantity: int    |
+| - price: float     |
+| - loggable_id: UUID|
+| - loggable_type:   |
+|   {Sales, Purchases} |
+| - data: JSON       |
+| - created_at: Date |
+| - updated_at: Date |
++--------------------+
+
++--------------------+        +--------------------+
+|     Customer       |        |      Vendor        |
++--------------------+        +--------------------+
+| - id: UUID         |        | - id: UUID         |
+| - tenant_id: UUID  |        | - tenant_id: UUID  |
+| - code: string     |        | - code: string     |
+| - name: string     |        | - name: string     |
+| - contact: string  |        | - contact: string  |
+| - address: string  |        | - address: string  |
+| - data: JSON       |        | - data: JSON       |
+| - created_at: Date |        | - created_at: Date |
+| - updated_at: Date |        | - updated_at: Date |
++--------------------+        +--------------------+
+
++--------------------+
+|       Sales        |
++--------------------+
+| - id: UUID         |
+| - tenant_id: UUID  |
+| - customer_id: UUID|
+| - account_id: UUID |
+| - total_amount:    |
+|   float            |
+| - date: DateTime   |
+| - data: JSON       |
+| - created_at: Date |
+| - updated_at: Date |
++--------------------+
+
++--------------------+
+|     Purchases      |
++--------------------+
+| - id: UUID         |
+| - tenant_id: UUID  |
+| - vendor_id: UUID  |
+| - account_id: UUID |
+| - total_cost: float|
+| - date: DateTime   |
+| - data: JSON       |
+| - created_at: Date |
+| - updated_at: Date |
++--------------------+
+
++--------------------+
+|      Invoice       |
++--------------------+
+| - id: UUID         |
+| - tenant_id: UUID  |
+| - loggable_id: UUID|
+| - loggable_type:   |
+|   {Sales, Purchases} |
+| - total_amount:    |
+|   float            |
+| - date: DateTime   |
+| - data: JSON       |
+| - created_at: Date |
+| - updated_at: Date |
++--------------------+
+          |
+          | 1
+          |
+         [*]
++--------------------+
+|      Payment       |
++--------------------+
+| - id: UUID         |
+| - tenant_id: UUID  |
+| - invoice_id: UUID |
+| - account_id: UUID |
+| - amount: float    |
+| - status: enum     |
+|   {pending, paid}  |
+| - data: JSON       |
+| - date: DateTime   |
+| - created_at: Date |
+| - updated_at: Date |
++--------------------+
+
++--------------------+
+|      Account       |
++--------------------+
+| - id: UUID         |
+| - tenant_id: UUID  |
+| - name: string     |
+| - description:     |
+|   string           |
+| - type: enum       |
+|   {cash, bank, UPI}|
+| - balance: float   |
+| - data: JSON       |
+| - created_at: Date |
+| - updated_at: Date |
++--------------------+
+
+
++--------------------+
+|      Settings      |
++--------------------+
+| - id: UUID         |   -- Unique identifier for each setting
+| - tenant_id: UUID  |   -- Foreign key for multi-tenancy
+| - key: string      |   -- Unique key for the setting (e.g., 'tax_rate', 'currency')
+| - value: text      |   -- The value associated with the key
+| - field_type: enum |   -- Type of field (e.g., text, number, boolean, select, json)
+| - data: JSON       |   -- Additional metadata (e.g., options for a select field)
+| - created_at: Date |
+| - updated_at: Date |
++--------------------+
