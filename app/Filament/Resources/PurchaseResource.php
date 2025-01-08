@@ -17,6 +17,7 @@ use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\View\TablesRenderHook;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Livewire\Component as Livewire;
@@ -157,6 +158,11 @@ class PurchaseResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('view_invoice')
+                    ->label(__("View Invoice"))
+                    ->url(function($record){
+                       return self::getUrl('invoice',['record'=>$record]);
+                    })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -178,6 +184,7 @@ class PurchaseResource extends Resource
             'index' => Pages\ListPurchases::route('/'),
             'create' => Pages\CreatePurchase::route('/create'),
             'edit' => Pages\EditPurchase::route('/{record}/edit'),
+            'invoice' => Pages\Invoice::route('/{record}/invoice')
         ];
     }
 
