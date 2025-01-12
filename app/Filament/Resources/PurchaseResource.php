@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PurchaseResource\Pages;
 use App\Filament\Resources\PurchaseResource\RelationManagers;
+use App\Filament\Resources\PurchaseResource\RelationManagers\InvoiceRecordsRelationManager;
 use App\Filament\Resources\PurchaseResource\RelationManagers\ProductsRelationManager;
 use App\Models\Category;
 use App\Models\Customer;
@@ -174,7 +175,8 @@ class PurchaseResource extends Resource
     public static function getRelations(): array
     {
         return [
-            ProductsRelationManager::make()
+            ProductsRelationManager::make(),
+            InvoiceRecordsRelationManager::make()
         ];
     }
 

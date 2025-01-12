@@ -28,4 +28,10 @@ class Purchase extends Model
     {
         return $this->hasMany(PurchaseProduct::class);
     }
+
+    // printing records relationship.
+    public function invoiceRecords()
+    {
+        return $this->hasMany(InvoiceRecord::class);
+    }
 }
