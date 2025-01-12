@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Filament\Events\TenantSet;
 use Illuminate\Database\Eloquent\Model;
 
 class Tenant extends Model
@@ -43,5 +44,10 @@ class Tenant extends Model
     public function purchases()
     {
         return $this->hasMany(Purchase::class);
+    }
+
+    public function settings()
+    {
+        return $this->hasMany(TenantSetting::class);
     }
 }
