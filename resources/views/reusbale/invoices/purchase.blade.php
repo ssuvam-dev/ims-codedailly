@@ -27,10 +27,10 @@
             </td>
             <td style="text-align: right;">
                 <h2 style="font-weight: bold; color: #4a5568;">Company</h2>
-                <p style="color: #718096;">Your Company Name</p>
-                <p style="color: #718096;">456 Corporate Blvd</p>
-                <p style="color: #718096;">City, State, ZIP</p>
-                <p style="color: #718096;">Email: info@company.com</p>
+                <p style="color: #718096;">{{$settings['Tenant Name']}}</p>
+                <p style="color: #718096;">{{$settings['Address']}}</p>
+                <p style="color: #718096;">{{$settings['Zip']}}</p>
+                <p style="color: #718096;">Email: {{$settings['Email']}}</p>
             </td>
         </tr>
     </table>
