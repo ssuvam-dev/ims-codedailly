@@ -1,7 +1,8 @@
-﻿Code,"Product Name",Quantity,Price
-L01,Laptop,11.00,12.00
-cpu$12,CPU,120.00,2000.00
-234,"Product A",10.00,234.00
-pb,"Product B",23.00,100.00
-C1321,"Product C",23.00,12.00
-u3984,"Test Product 20",10.00,100.00
+﻿Code,"Product Name",Quantity,Price,name
+L01,Laptop,11.00,12.00,"Hardwares"
+cpu$12,CPU,120.00,2000.00,"software"
+234,"Product New",10.00,234.00,"software"
+pb,"Product B",23.00,100.00,"software"
+C1321,"Product C",23.00,12.00,"software"
+u3984,"Test Product 20",10.00,100.00,"software"
+u100,"This is a new Product",10.00,120,"software"

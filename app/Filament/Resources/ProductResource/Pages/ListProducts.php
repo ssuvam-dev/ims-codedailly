@@ -3,10 +3,13 @@
 namespace App\Filament\Resources\ProductResource\Pages;
 
 use App\Filament\Exports\ProductExporter;
+use App\Filament\Imports\ProductImporter;
 use App\Filament\Resources\ProductResource;
 use Filament\Actions;
 use Filament\Actions\ExportAction;
 use Filament\Actions\Exports\Enums\ExportFormat;
+use Filament\Actions\ImportAction;
+use Filament\Facades\Filament;
 use Filament\Resources\Pages\ListRecords;
 
 class ListProducts extends ListRecords
@@ -21,6 +24,11 @@ class ListProducts extends ListRecords
                 ->exporter(ProductExporter::class)
                 ->formats([
                     ExportFormat::Csv,
+                ]),
+            ImportAction::make()
+                ->importer(ProductImporter::class)
+                ->options([
+                    "tenant_id"=>Filament::getTenant()->id
                 ])
             
         ];
