@@ -97,12 +97,14 @@ class PurchaseResource extends Resource
                                     ->required()
                                     ->numeric()
                                     ->reactive()
+                                    ->live(onBlur:true)
                                     ->afterStateUpdated(fn(Callable $get,Set $set)=>self::updateFormData($get,$set)),
 
                                 Forms\Components\TextInput::make("quantity")
                                     ->required()
                                     ->numeric()
                                     ->reactive()
+                                    ->live(onBlur:true)
                                     ->afterStateUpdated(fn(Callable $get,Set $set)=>self::updateFormData($get,$set)),            
 
                                 Forms\Components\TextInput::make("total")
@@ -147,12 +149,18 @@ class PurchaseResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->recordUrl(function($record){
+                return self::getUrl('invoice',['record'=>$record->id]);
+            })
             ->columns([
                 Tables\Columns\TextColumn::make("invoice_no")
                     ->label(__("Invoice No.")),
 
                 Tables\Columns\TextColumn::make("provider.name")
                     ->label(__("Provider"))
+                    ->url(function($record){
+                        return ProviderResource::getUrl("edit",['record'=>$record->provider_id]);
+                    })
             ])
             ->filters([
                 //
