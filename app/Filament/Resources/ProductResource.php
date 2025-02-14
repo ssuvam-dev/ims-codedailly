@@ -7,6 +7,7 @@ use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Unit;
+use App\Rules\UniqueProductInCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -96,7 +97,12 @@ class ProductResource extends Resource
                         ->schema([
                             Forms\Components\TextInput::make("name")
                                 ->label(__("Name"))
-                                ->required(),
+                                ->required()
+                                ->rules(function(callable $get){
+                                    return [
+                                        new UniqueProductInCategory($get('category_id'))
+                                    ];
+                                }),
 
                             Forms\Components\TextInput::make('code')
                                 ->label(__("Code"))
