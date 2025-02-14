@@ -103,9 +103,25 @@ class ProductResource extends Resource
                                 ->required(),
 
                             Forms\Components\Select::make("category_id")
-                                ->options(Category::pluck("name",'id')->toArray())
                                 ->searchable()
-                                ->required(),
+                                ->options(function(){
+                                    $categories  = Category::pluck('name','id')->toArray();
+                                    $createArr =  ["create_new"=> "Add New Category"];
+                                    return $createArr + $categories;
+                                })
+                                ->dehydrated(function($state){
+                                    return $state != "create_new";
+                                })
+                                ->reactive(),
+
+                            Forms\Components\TextInput::make('category_name')
+                                ->label(__("Category Name"))
+                                ->visible(function(callable $get){
+                                    return $get('category_id') == "create_new";
+                                })
+                                ->requiredIf('category_id','create_new'),
+                                
+
 
                             Forms\Components\Select::make("unit_id")
                                 ->options(Unit::pluck("name",'id')->toArray())

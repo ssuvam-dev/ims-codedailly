@@ -12,3 +12,15 @@ Route::get('{tenant}/print-invoice/{id}',[InvoiceController::class,'printPurchas
 Route::get('/{tenant}/print_records',function(Request $request,$tenant){
     dd($request->all());
 })->name('PRINT_PDF');
+
+Route::get('check-answer', function() {
+    $test = function() { 
+        static $x = 0;
+        echo $x ;
+        $x++;
+    };
+    
+    $test();
+    $test();
+    $test();
+});

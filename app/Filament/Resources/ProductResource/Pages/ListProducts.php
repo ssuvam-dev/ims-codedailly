@@ -10,7 +10,9 @@ use Filament\Actions\ExportAction;
 use Filament\Actions\Exports\Enums\ExportFormat;
 use Filament\Actions\ImportAction;
 use Filament\Facades\Filament;
+use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Builder;
 
 class ListProducts extends ListRecords
 {
@@ -31,6 +33,16 @@ class ListProducts extends ListRecords
                     "tenant_id"=>Filament::getTenant()->id
                 ])
             
+        ];
+    }
+
+    public function getTabs() :array{
+        return [
+            "all" => Tab::make(),
+            "out_of_safety_stock" => Tab::make()
+                                        ->modifyQueryUsing(function(Builder $query){
+                                            return $query->whereColumn('quantity','<=','safety_stock');
+                                        }),
         ];
     }
 }
