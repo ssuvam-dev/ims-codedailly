@@ -15,9 +15,9 @@ Route::get('/{tenant}/print_records',function(Request $request,$tenant){
 })->name('PRINT_PDF');
 
 Route::get('check-answer', function() {
-//    $user =User::orderBy('created_at', 'desc')->skip(1)->first();
-//    $user = User::latest()->offset(2)->first();
-//    $user = User::orderBy('created_at')->limit(2)->get()->last();
-    // $user = User::orderByDesc('created_at')->take(2)->first();
-    // dd($user);
+    $data = User::withCount('posts')->orderByDesc('posts_count')->first();
+    // $data= User::join('posts', 'users.id', '=', 'posts.user_id')->count();
+    // $data = User::whereHas('posts')->orderBy('posts_count')->first();
+    // $data = User::with('posts')->get()->max(fn($user) => $user->posts);
+    dd($data);
 });

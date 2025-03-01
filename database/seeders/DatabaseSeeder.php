@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Post;
 use App\Models\Tenant;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -17,7 +18,13 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->make()->each(function ($user) {
             $user->created_at = now()->subDays(rand(1, 365)); 
             $user->save();
+        
+            // Create random number of posts for each user (between 1 and 10)
+            Post::factory(rand(1, 10))->create([
+                'user_id' => $user->id,
+            ]);
         });
+        
 
         // User::factory()->create([
         //     'name' => 'Test User',

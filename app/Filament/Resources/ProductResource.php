@@ -8,10 +8,16 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Unit;
 use App\Rules\UniqueProductInCategory;
+use Carbon\Carbon;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -61,9 +67,45 @@ class ProductResource extends Resource
                     ->sortable(),
 
             ])
-            ->filters([
-                //
-            ])
+            ->filters([                  
+                Filter::make('price_range_filter')
+                    ->form([
+                        TextInput::make('from_price')
+                            ->label(__("From Price"))
+                            ->numeric(),
+
+                        TextInput::make('to_price')
+                            ->label(__("To Price"))
+                            ->numeric()
+                    ])
+                    ->indicateUsing(function (array $data): array {
+                        $indicators = [];
+                 
+                        if ($data['from_price'] ?? null) {
+                            $indicators[] = Indicator::make('From Price '. $data['from_price'])
+                                ->removeField('from_price')
+                                ->removable(true);
+                        }
+                 
+                        if ($data['to_price'] ?? null) {
+                            $indicators[] = Indicator::make('To Price '. $data['to_price'])
+                                ->removeField('to_price');
+                        }
+                 
+                        return $indicators;
+                    })
+                    ->query(function(Builder $query, array $data):Builder{
+                        return $query
+                                ->when(
+                                    $data['from_price'],
+                                    fn(Builder $query, $price) :Builder=>$query->where('price','>=',$price)
+                                )
+                                ->when(
+                                    $data['to_price'],
+                                    fn(Builder $query, $price) :Builder=>$query->where('price','<=',$price)
+                                );
+                    })
+                ],FiltersLayout::Modal)
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
