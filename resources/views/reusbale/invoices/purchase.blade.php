@@ -73,7 +73,8 @@
 
     <!-- Footer -->
     <div style="margin-top: 24px; text-align: center; color: #a0aec0;">
-        <p>Thank you for your business!</p>
-        <p>If you have any questions about this invoice, please contact us at info@company.com.</p>
+        <!-- <p>Thank you for your business!</p>
+        <p>If you have any questions about this invoice, please contact us at info@company.com.</p> -->
+        <livewire:footer-text-component/>
     </div>
 </div>
