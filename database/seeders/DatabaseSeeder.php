@@ -15,15 +15,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->make()->each(function ($user) {
-            $user->created_at = now()->subDays(rand(1, 365)); 
-            $user->save();
+        // User::factory(10)->make()->each(function ($user) {
+        //     $user->created_at = now()->subDays(rand(1, 365)); 
+        //     $user->save();
         
-            // Create random number of posts for each user (between 1 and 10)
-            Post::factory(rand(1, 10))->create([
-                'user_id' => $user->id,
-            ]);
-        });
+        //     // Create random number of posts for each user (between 1 and 10)
+        //     Post::factory(rand(1, 10))->create([
+        //         'user_id' => $user->id,
+        //     ]);
+        // });
         
 
         // User::factory()->create([
@@ -31,18 +31,18 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        // $user = User::create([
-        //     "name" => "Test User",
-        //     "email"=> "test@test.com",
-        //     "password"=> bcrypt("test")
-        // ]);
+        $user = User::create([
+            "name" => "Test User",
+            "email"=> "test@test.com",
+            "password"=> bcrypt("test")
+        ]);
 
-        // $tenant =  Tenant::create([
-        //     "name" => "My Tenant",
-        //     "email" =>"tenant@teant.com",
-        //     "contact"=>"1234567890"
-        // ]);
+        $tenant =  Tenant::create([
+            "name" => "My Tenant",
+            "email" =>"tenant@teant.com",
+            "contact"=>"1234567890"
+        ]);
 
-        // $tenant->users()->attach($user);
+        $tenant->users()->attach($user);
     }
 }

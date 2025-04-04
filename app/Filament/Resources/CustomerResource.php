@@ -4,7 +4,9 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CustomerResource\Pages;
 use App\Filament\Resources\CustomerResource\RelationManagers;
+use App\Filament\Reusbales\CustomerForm;
 use App\Models\Customer;
+use App\Traits\CustomerForm as TraitsCustomerForm;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,6 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CustomerResource extends Resource
 {
+    use TraitsCustomerForm;
     protected static ?string $model = Customer::class;
 
     public static function getNavigationLabel(): string
@@ -30,7 +33,9 @@ class CustomerResource extends Resource
             ->schema([
                 Forms\Components\Section::make()
                     ->columns(2)
-                    ->schema(self::getCustomerFormSchema())
+                    ->schema(
+                        self::getCustomerForm()
+                    )
             ]);
     }
 
@@ -105,7 +110,8 @@ class CustomerResource extends Resource
                     ->label(__("Address")),
 
                 Forms\Components\KeyValue::make("data")
-                    ->label(__("Extra Details"))
+                    ->label(__("Extra Details")),
+
         ];
     }
 }

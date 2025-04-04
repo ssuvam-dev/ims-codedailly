@@ -6,6 +6,7 @@ use App\Filament\Resources\ProviderResource\Pages;
 use App\Filament\Resources\ProviderResource\RelationManagers;
 use App\Models\Provider;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -26,6 +27,18 @@ class ProviderResource extends CustomerResource
         return [
             //
         ];
+    }
+
+    public static function form(Form $form) :Form
+    {
+        return $form
+                ->schema(
+                    [
+                        ...parent::form($form)->getComponents(),
+                        TextInput::make('vat')
+                            ->label(__("Vat Number"))
+                    ]
+                );
     }
 
     public static function getPages(): array
