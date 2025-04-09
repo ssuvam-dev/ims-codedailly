@@ -63,10 +63,10 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->renderHook(
-                PanelsRenderHook::FOOTER,
-                fn (): string => Blade::render('@livewire(\'footer-text-component\')'),
-                )
+            // ->renderHook(
+            //     PanelsRenderHook::FOOTER,
+            //     fn (): string => Blade::render('@livewire(\'footer-text-component\')'),
+            //     )
             ->plugins([
                 BreezyCore::make()
                 ->myProfile(
